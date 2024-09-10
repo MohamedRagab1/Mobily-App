@@ -134,12 +134,8 @@ class BugSubmissionViewModel: ObservableObject {
         AF.request(tokenURL, method: .post, parameters: parameters, encoding: URLEncoding.default , headers: headers)
             .responseJSON { response in
                 switch response.result {
-                    
                 case .success(let data):
-
-                    print("data : \(data)")
-                    
-                    
+                    print("data : \(data)")                    
                     if let json = data as? [String: Any],
                        let accessToken = json["access_token"] as? String,
                        let refreshToken = json["refresh_token"] as? String {
@@ -281,30 +277,19 @@ class BugSubmissionViewModel: ObservableObject {
     
 //    
     private func updateSheet(spreadsheetId: String, range: String, values: [[String]], apiKey: String) {
-        
         //&key=\(apiKey)
-        
         // Construct the URL
         let url = "https://sheets.googleapis.com/v4/spreadsheets/\(spreadsheetId)/values/\(range):append?valueInputOption=RAW"
         // Prepare parameters in the correct format
+        print("url :: \(url)")
         let parameters: [String: Any] = [
             "values": values
         ]
-     
         // Define headers
         let headers: HTTPHeaders = [
-            "Content-Type": "application/json" ,
-            "Authorization": "Bearer \(String(describing: accessToken))"
+            "Content-Type": "application/json"
+//            "Authorization": "Bearer \(String(describing: accessToken))"
         ]
-
-        print("headers  : \(headers)")
-        print("parameters : \(parameters)")
-        print("accessToken  : \(accessToken)")
-        print("spreadsheetId  : \(spreadsheetId)")
-        print("range           : \(range)")
-        print("apiKey            : \(apiKey)")
-
-        
         // Make the request
         AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             // Handle the response

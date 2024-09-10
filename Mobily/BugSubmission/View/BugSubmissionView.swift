@@ -100,11 +100,13 @@ struct BugSubmissionView: View {
                  
                     
                     Button(action: {
-                        if viewModel.isAuthorized {
-                            viewModel.submitBug()
-                        } else {
-                            showSignInAlert = true
-                        }
+                        viewModel.submitBug()
+
+//                        if viewModel.isAuthorized {
+//                            viewModel.submitBug()
+//                        } else {
+//                            showSignInAlert = true
+//                        }
                         
                     }) {
                         Text("Submit")

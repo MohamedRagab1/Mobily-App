@@ -48,45 +48,45 @@ struct ContentView: View {
                         }
                     } else {
                         
-//                        Button(action: {
-//                            if let authorizationURL = viewModel.getAuthorizationURL() {
-//                                UIApplication.shared.open(authorizationURL, options: [:], completionHandler: nil)
-//                            }
-//                        }) {
-//                            Text("Sign in with Google")
-//                        }
-                        
-                        GoogleSignInButton {
-//                            viewModel.openAuthorizationURL()
-
-                            GIDSignIn.sharedInstance.signIn(withPresenting: getRootViewController() ) { signInResult, error in
-                                // check `error`; do something with `signInResult`
-                                
-                                if let error = error {
-                                    print("Google Sign-In Error: \(error.localizedDescription)")
-                                    return
-                                }
-                                
-                                guard let user = signInResult else {
-                                    print("Google Sign-In User Error")
-                                    return
-                                }
-                                
-                                // Extract the authentication object and tokens
-                                let accessToken = user.user.accessToken.tokenString
-                                print("accessToken : \(accessToken)")
-                                print("code : \(user.user.idToken)")
-
-
-                                UserDefaults.standard.set(accessToken, forKey: "accessToken")
-                                UserDefaults.standard.set(isSignedIn, forKey: "isSignedIn")
-                                
-//                                viewModel.exchangeAuthorizationCodeForToken(code: "4")
-
-                                self.isSignedIn = true
-
+                        Button(action: {
+                            if let authorizationURL = viewModel.getAuthorizationURL() {
+                                UIApplication.shared.open(authorizationURL, options: [:], completionHandler: nil)
                             }
+                        }) {
+                            Text("Sign in with Google")
                         }
+                        
+//                        GoogleSignInButton {
+////                            viewModel.openAuthorizationURL()
+//
+//                            GIDSignIn.sharedInstance.signIn(withPresenting: getRootViewController() ) { signInResult, error in
+//                                // check `error`; do something with `signInResult`
+//                                
+//                                if let error = error {
+//                                    print("Google Sign-In Error: \(error.localizedDescription)")
+//                                    return
+//                                }
+//                                
+//                                guard let user = signInResult else {
+//                                    print("Google Sign-In User Error")
+//                                    return
+//                                }
+//                                
+//                                // Extract the authentication object and tokens
+//                                let accessToken = user.user.accessToken.tokenString
+//                                print("accessToken : \(accessToken)")
+//                                print("code : \(user.user.idToken?.tokenString)")
+//
+//
+//                                UserDefaults.standard.set(accessToken, forKey: "accessToken")
+//                                UserDefaults.standard.set(isSignedIn, forKey: "isSignedIn")
+//                                
+////                                viewModel.exchangeAuthorizationCodeForToken(code: "4")
+//
+//                                self.isSignedIn = true
+//
+//                            }
+//                        }
                     }
                 }
                 .navigationTitle("Bug Tracker")
