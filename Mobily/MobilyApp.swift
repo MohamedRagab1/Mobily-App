@@ -11,7 +11,6 @@ import GoogleSignIn
 
 @main
 struct MobilyApp: App {
-//    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var viewModel = BugSubmissionViewModel()
 
     // Initialize Firebase

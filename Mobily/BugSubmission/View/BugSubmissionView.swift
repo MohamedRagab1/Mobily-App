@@ -12,17 +12,17 @@ struct BugSubmissionView: View {
     @StateObject private var viewModel = BugSubmissionViewModel()
     @State private var showingImagePicker = false
     @State private var showSignInAlert = false
-
+    
     
     var body: some View {
-    
+        
         ZStack {
             if #available(iOS 17.0, *) {
                 Color(ColorsEnum.Bg.color).ignoresSafeArea()
             } else {
                 // Fallback on earlier versions
             }
-
+            
             ScrollView {
                 
                 VStack (spacing : 20){
@@ -30,83 +30,83 @@ struct BugSubmissionView: View {
                         .font(.custom(FontsEnum.Bold.font, size: 22))
                         .foregroundColor(.black)
                     
-                        VStack {
-                            
-                            Button(action: {
-                                showingImagePicker = true
-                            }) {
-                                Text("Select Screenshot")
-                                    .foregroundColor(ColorsEnum.Main.color)
-                                
-                            }
-                            .padding()
-                            .sheet(isPresented: $showingImagePicker) {
-                                ImagePicker(selectedImage: $viewModel.selectedImage)
-                            }
-                            
-                            // Display selected image if available
-                            if let selectedImage = viewModel.selectedImage {
-                                Image(uiImage: selectedImage)
-                                    .resizable()
-                                    .frame(maxWidth: 300 , maxHeight: 300)
-                                    .scaledToFit()
-                                    .cornerRadius(20)  // Apply corner radius
-                                    .clipped()         // Clip the image to its bounds
-                                    .padding()
-                            } else {
-                                Text("No Image Selected")
-                                    .padding()
-                            }
+                    VStack {
+                        
+                        Button(action: {
+                            showingImagePicker = true
+                        }) {
+                            Text("Select Screenshot")
+                                .foregroundColor(ColorsEnum.Main.color)
                             
                         }
                         .padding()
-                        .frame(maxWidth: .infinity , maxHeight: 320)
-                        .background(.white)
-                        .overlay(
-                            RoundedCorners(radius: 20, corners: .allCorners)
-//                                .stroke(Color(ColorsEnum.Second.color), lineWidth: 1)
-                                .stroke(.gray , lineWidth: 1)
-
-                        )
-                  
+                        .sheet(isPresented: $showingImagePicker) {
+                            ImagePicker(selectedImage: $viewModel.selectedImage)
+                        }
+                        
+                        // Display selected image if available
+                        if let selectedImage = viewModel.selectedImage {
+                            Image(uiImage: selectedImage)
+                                .resizable()
+                                .frame(maxWidth: 300 , maxHeight: 300)
+                                .scaledToFit()
+                                .cornerRadius(20)  // Apply corner radius
+                                .clipped()         // Clip the image to its bounds
+                                .padding()
+                        } else {
+                            Text("No Image Selected")
+                                .padding()
+                        }
+                        
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity , maxHeight: 320)
+                    .background(.white)
+                    .overlay(
+                        RoundedCorners(radius: 20, corners: .allCorners)
+                        //                                .stroke(Color(ColorsEnum.Second.color), lineWidth: 1)
+                            .stroke(.gray , lineWidth: 1)
+                        
+                    )
                     
-                  
-                        VStack {
-                            ZStack(alignment: .topLeading) {
-                                
-                                TextEditor(text: $viewModel.description)
-                                    .font(.custom(FontsEnum.Regular.font, size: 18))
-                                    .padding(4)
-                                
-                                if viewModel.description.isEmpty {
-                                    Text("Enter your description here...")
-                                        .foregroundColor(.gray)
-                                        .padding(.horizontal, 8)
-                                        .padding(.vertical, 10)
-                                }
-                                
+                    
+                    
+                    VStack {
+                        ZStack(alignment: .topLeading) {
+                            
+                            TextEditor(text: $viewModel.description)
+                                .font(.custom(FontsEnum.Regular.font, size: 18))
+                                .padding(4)
+                            
+                            if viewModel.description.isEmpty {
+                                Text("Enter your description here...")
+                                    .foregroundColor(.gray)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 10)
                             }
+                            
                         }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 150)
-                        .background(.white)
-                        .overlay(
-                            RoundedCorners(radius: 10, corners: .allCorners)
-//                                .stroke(Color(ColorsEnum.Second.color), lineWidth: 1)
-                                .stroke(.gray , lineWidth: 1)
-
-                        )
-                 
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 150)
+                    .background(.white)
+                    .overlay(
+                        RoundedCorners(radius: 10, corners: .allCorners)
+                        //                                .stroke(Color(ColorsEnum.Second.color), lineWidth: 1)
+                            .stroke(.gray , lineWidth: 1)
+                        
+                    )
+                    
                     
                     Button(action: {
                         viewModel.submitBug()
-
-//                        if viewModel.isAuthorized {
-//                            viewModel.submitBug()
-//                        } else {
-//                            showSignInAlert = true
-//                        }
+                        
+                        //                        if viewModel.isAuthorized {
+                        //                            viewModel.submitBug()
+                        //                        } else {
+                        //                            showSignInAlert = true
+                        //                        }
                         
                     }) {
                         Text("Submit")
@@ -121,7 +121,7 @@ struct BugSubmissionView: View {
                     .alert(isPresented: $showSignInAlert) {
                         Alert(title: Text("Sign-In Required"), message: Text("You need to sign in to submit a bug."), dismissButton: .default(Text("OK")))
                     }
-//                    .disabled(viewModel.isSubmitting || viewModel.isAuthorized )
+                    .disabled(viewModel.isSubmitting)
                     
                     if viewModel.isSubmitting {
                         ProgressView("Submitting...")

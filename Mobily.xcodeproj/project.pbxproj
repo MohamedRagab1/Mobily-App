@@ -12,7 +12,6 @@
 		0495C2F72C8EF01D000967E5 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 0495C2F62C8EF01D000967E5 /* GoogleSignIn */; };
 		0495C2F92C8EF024000967E5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 0495C2F82C8EF024000967E5 /* FirebaseAuth */; };
 		0495C2FB2C8EF032000967E5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0495C2FA2C8EF032000967E5 /* FirebaseStorage */; };
-		04A76FAE2C8DCCC500065D50 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A76FAD2C8DCCC500065D50 /* SceneDelegate.swift */; };
 		04CA394E2C8EDEB3004F865E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04CA394D2C8EDEB3004F865E /* GoogleService-Info.plist */; };
 		1902A6AE2C8B20B600C4BA90 /* MobilyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1902A6AD2C8B20B600C4BA90 /* MobilyApp.swift */; };
 		1902A6B02C8B20B600C4BA90 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1902A6AF2C8B20B600C4BA90 /* ContentView.swift */; };
@@ -50,7 +49,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		04A76FAD2C8DCCC500065D50 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		04CA394D2C8EDEB3004F865E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1902A6AA2C8B20B600C4BA90 /* Mobily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mobily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1902A6AD2C8B20B600C4BA90 /* MobilyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobilyApp.swift; sourceTree = "<group>"; };
@@ -138,7 +136,6 @@
 				1902A6E32C8B2EFD00C4BA90 /* Fonts */,
 				1902A6B12C8B20B800C4BA90 /* Assets.xcassets */,
 				1902A6B32C8B20B800C4BA90 /* Preview Content */,
-				04A76FAD2C8DCCC500065D50 /* SceneDelegate.swift */,
 			);
 			path = Mobily;
 			sourceTree = "<group>";
@@ -319,6 +316,7 @@
 				0495C2F12C8EEFB2000967E5 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				0495C2F22C8EEFD3000967E5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				0495C2F32C8EF000000967E5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				0473B0DD2C916D46006A5129 /* XCRemoteSwiftPackageReference "google-api-objectivec-client-for-rest" */,
 			);
 			productRefGroup = 1902A6AB2C8B20B600C4BA90 /* Products */;
 			projectDirPath = "";
@@ -374,7 +372,6 @@
 				1902A6DA2C8B21AB00C4BA90 /* BugSubmissionView.swift in Sources */,
 				1902A6E02C8B2C6E00C4BA90 /* BugSubmissionViewModel.swift in Sources */,
 				1902A6AE2C8B20B600C4BA90 /* MobilyApp.swift in Sources */,
-				04A76FAE2C8DCCC500065D50 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -538,7 +535,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Mobily/Preview Content\"";
-				DEVELOPMENT_TEAM = 23H4SBD5QL;
+				DEVELOPMENT_TEAM = 292H8RC5DT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mobily/Info.plist;
@@ -574,7 +571,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Mobily/Preview Content\"";
-				DEVELOPMENT_TEAM = 23H4SBD5QL;
+				DEVELOPMENT_TEAM = 292H8RC5DT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mobily/Info.plist;
@@ -716,6 +713,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0473B0DD2C916D46006A5129 /* XCRemoteSwiftPackageReference "google-api-objectivec-client-for-rest" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/google-api-objectivec-client-for-rest";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		0495C2F12C8EEFB2000967E5 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";

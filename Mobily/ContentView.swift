@@ -15,13 +15,8 @@ struct ContentView: View {
     @State var showSplash : Bool = true
     //    @State private var imageOffset: CGFloat = -UIScreen.main.bounds.height / 2 // Start above the screen
     @State private var imageSize: CGFloat = 10 // Starting size for both width and height
-    
     @StateObject private var viewModel = BugSubmissionViewModel()
-    @State private var isSignedIn = false
-    
-    // Define the scope you need.
-    let driveScope = "https://www.googleapis.com/auth/drive.readonly"
-
+    @State private var isSignedIn = false    
     
     
     var body: some View {
@@ -46,47 +41,45 @@ struct ContentView: View {
                                 .font(.custom(FontsEnum.Bold.font, size: 18))
                                 .padding()
                         }
-                    } else {
                         
-                        Button(action: {
-                            if let authorizationURL = viewModel.getAuthorizationURL() {
-                                UIApplication.shared.open(authorizationURL, options: [:], completionHandler: nil)
-                            }
-                        }) {
-                            Text("Sign in with Google")
+                        // User is signed in, show sign-out button
+                        Button("Sign Out") {
+                            signOut()
                         }
                         
-//                        GoogleSignInButton {
-////                            viewModel.openAuthorizationURL()
-//
-//                            GIDSignIn.sharedInstance.signIn(withPresenting: getRootViewController() ) { signInResult, error in
-//                                // check `error`; do something with `signInResult`
-//                                
-//                                if let error = error {
-//                                    print("Google Sign-In Error: \(error.localizedDescription)")
-//                                    return
-//                                }
-//                                
-//                                guard let user = signInResult else {
-//                                    print("Google Sign-In User Error")
-//                                    return
-//                                }
-//                                
-//                                // Extract the authentication object and tokens
-//                                let accessToken = user.user.accessToken.tokenString
-//                                print("accessToken : \(accessToken)")
-//                                print("code : \(user.user.idToken?.tokenString)")
-//
-//
-//                                UserDefaults.standard.set(accessToken, forKey: "accessToken")
-//                                UserDefaults.standard.set(isSignedIn, forKey: "isSignedIn")
-//                                
-////                                viewModel.exchangeAuthorizationCodeForToken(code: "4")
-//
-//                                self.isSignedIn = true
-//
-//                            }
-//                        }
+                    } else {
+                        
+                        //                        Button(action: {
+                        //                            if let authorizationURL = viewModel.getAuthorizationURL() {
+                        //                                UIApplication.shared.open(authorizationURL, options: [:], completionHandler: nil)
+                        //                            }
+                        //                        }) {
+                        //                            Text("Sign in with Google")
+                        //                        }
+                        //
+                        GoogleSignInButton {
+                            GIDSignIn.sharedInstance.signIn(withPresenting: getRootViewController() ) { signInResult, error in
+                                // check `error`; do something with `signInResult`
+                                if let error = error {
+                                    print("Google Sign-In Error: \(error.localizedDescription)")
+                                    return
+                                }
+                                guard let user = signInResult else {
+                                    print("Google Sign-In User Error")
+                                    return
+                                }
+                                // Extract the authentication object and tokens
+                                let accessToken = user.user.accessToken.tokenString
+                                print("accessToken : \(accessToken)")
+                                
+                                
+                                self.isSignedIn = true
+                                
+                                UserDefaults.standard.set(accessToken, forKey: "accessToken")
+                                UserDefaults.standard.set(isSignedIn, forKey: "isSignedIn")
+                                
+                            }
+                        }
                     }
                 }
                 .navigationTitle("Bug Tracker")
@@ -95,7 +88,7 @@ struct ContentView: View {
                     if let url = notification.object as? URL {
                         viewModel.handleAuthorizationRedirect(url: url)
                     }
-                }                
+                }
             }
             
             if showSplash {
@@ -124,10 +117,19 @@ struct ContentView: View {
                 
             }
         }
+        .onAppear {
+            // Check if user is already signed in
+            isSignedIn = UserDefaults.standard.bool(forKey: "isSignedIn")
+        }
         
     }
     
-    
+    private func signOut() {
+        GIDSignIn.sharedInstance.signOut()
+        UserDefaults.standard.removeObject(forKey: "accessToken")
+        UserDefaults.standard.set(false, forKey: "isSignedIn")
+        self.isSignedIn = false
+    }
     
     private func getRootViewController() -> UIViewController {
         // Utility function to get the root view controller

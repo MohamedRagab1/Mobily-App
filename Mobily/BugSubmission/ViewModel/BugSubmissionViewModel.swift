@@ -28,7 +28,7 @@ class BugSubmissionViewModel: ObservableObject {
     private let clientId     = "835428604547-4ai1b21v87uc88or1n783a6gjtlbvv3v.apps.googleusercontent.com"
     private let clientSecret = "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"
     private let redirectUri  = "com.googleusercontent.apps.835428604547-4ai1b21v87uc88or1n783a6gjtlbvv3v:/oauth2redirect"
-    private let scopes = "https://www.googleapis.com/auth/spreadsheets"
+    private let scopes       = "https://www.googleapis.com/auth/spreadsheets"
 
     
     
@@ -152,24 +152,6 @@ class BugSubmissionViewModel: ObservableObject {
             }
     }
     
-    //    func signInWithGoogle(from viewController: UIViewController) {
-    //           let configuration = GIDConfiguration(clientID: "835428604547-4ai1b21v87uc88or1n783a6gjtlbvv3v.apps.googleusercontent.com")
-    //        GIDSignIn.sharedInstance.signIn(with: configuration, presenting: viewController) { [weak self] (user, error) in
-    //               if let error = error {
-    //                   print("Google Sign-In error: \(error.localizedDescription)")
-    //                   self?.submissionError = "Sign-in failed: \(error.localizedDescription)"
-    //                   return
-    //               }
-    //
-    //               guard let user = user else {
-    //                   self?.submissionError = "No user returned from Google Sign-In."
-    //                   return
-    //               }
-    //
-    //               self?.accessToken = user.authentication.accessToken
-    //               self?.isAuthorized = true
-    //           }
-    //       }
     
     func formattedCurrentDate() -> String {
         let dateFormatter = DateFormatter()
@@ -219,7 +201,7 @@ class BugSubmissionViewModel: ObservableObject {
             }
             
             
-            self.updateSheet(spreadsheetId: "1_9umI0usAhx0cDhRnO-YeDeFq4xdE8jrpC5Ad2LGlTE", range: formattedDate , values: values, apiKey: "AIzaSyAOMF5qBXHDs6r5dUYC_bMiTrN_EUQ93iw")
+            self.updateSheet(spreadsheetId: "10CUyGACHb1qeQVWOL0eZ1WfyKHdSqQaJTe448Jg7vDI", range: formattedDate , values: values, apiKey: "AIzaSyDRk0vpRdAvaAPVv7D0xmSVPQBMdQJD4e4")
         }
         
         
@@ -268,18 +250,11 @@ class BugSubmissionViewModel: ObservableObject {
             }
         }
     }
-    
-    
-    
-    // api key     AIzaSyAOMF5qBXHDs6r5dUYC_bMiTrN_EUQ93iw
-    // client id    835428604547-4ai1b21v87uc88or1n783a6gjtlbvv3v.apps.googleusercontent.com
-    // client secret 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
-    
-//    
+       
     private func updateSheet(spreadsheetId: String, range: String, values: [[String]], apiKey: String) {
         //&key=\(apiKey)
         // Construct the URL
-        let url = "https://sheets.googleapis.com/v4/spreadsheets/\(spreadsheetId)/values/\(range):append?valueInputOption=RAW"
+        let url = "https://sheets.googleapis.com/v4/spreadsheets/\(spreadsheetId)/values/\(range):append?valueInputOption=RAW&key=\(apiKey)"
         // Prepare parameters in the correct format
         print("url :: \(url)")
         let parameters: [String: Any] = [
@@ -287,8 +262,8 @@ class BugSubmissionViewModel: ObservableObject {
         ]
         // Define headers
         let headers: HTTPHeaders = [
-            "Content-Type": "application/json"
-//            "Authorization": "Bearer \(String(describing: accessToken))"
+            "Content-Type": "application/json" ,
+            "Authorization": "Bearer \(String(describing: accessToken))"
         ]
         // Make the request
         AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
@@ -323,7 +298,6 @@ class BugSubmissionViewModel: ObservableObject {
         }
         return rootViewController
     }
-    
 }
 
 //https://docs.google.com/spreadsheets/d/e/2PACX-1vShq4ij45YOSTwMQTy7VIoHizydfIjTtxdmkO_10seZaFTNEVShX9eKwZQyQ8wMTjeTPzGjmOiNJmEI/pubhtml

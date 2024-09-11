@@ -1,5 +1,5 @@
 {
-  "originHash" : "d119ec37cdd281089ae6a2cd452749c8ab51ac4add7f0d0bfd214affc5d11c0e",
+  "originHash" : "5ac01d154405172204fd79565885049b62c4a5d7b3e60cd195cc56d34d460487",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -44,6 +44,15 @@
       "state" : {
         "revision" : "9118aca998dbe2ceac45d64b21a91c6376928df7",
         "version" : "11.1.0"
+      }
+    },
+    {
+      "identity" : "google-api-objectivec-client-for-rest",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/google-api-objectivec-client-for-rest",
+      "state" : {
+        "branch" : "main",
+        "revision" : "3f01d672eba32b69b849d8a04ba89cfebc30e110"
       }
     },
     {
