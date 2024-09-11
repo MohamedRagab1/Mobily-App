@@ -200,8 +200,9 @@ class BugSubmissionViewModel: ObservableObject {
                 return dateFormatter.string(from: Date())
             }
             
+            self.submitDataWithNotion(imageUrl: imageUrl, description: description)
             
-            self.updateSheet(spreadsheetId: "10CUyGACHb1qeQVWOL0eZ1WfyKHdSqQaJTe448Jg7vDI", range: formattedDate , values: values, apiKey: "AIzaSyDRk0vpRdAvaAPVv7D0xmSVPQBMdQJD4e4")
+//            self.updateSheet(spreadsheetId: "10CUyGACHb1qeQVWOL0eZ1WfyKHdSqQaJTe448Jg7vDI", range: formattedDate , values: values, apiKey: "AIzaSyDRk0vpRdAvaAPVv7D0xmSVPQBMdQJD4e4")
         }
         
         
@@ -258,7 +259,10 @@ class BugSubmissionViewModel: ObservableObject {
         // Prepare parameters in the correct format
         print("url :: \(url)")
         let parameters: [String: Any] = [
-            "values": values
+            "values": values ,
+            "range": range
+//            "majorDimension": "ROWS",
+            
         ]
         // Define headers
         let headers: HTTPHeaders = [
@@ -272,6 +276,13 @@ class BugSubmissionViewModel: ObservableObject {
             switch response.result {
             case .success(let data):
                 self.submissionSuccess = true
+                
+                // Clear the description and selected image on success
+                DispatchQueue.main.async {
+                    self.description   = ""
+                    self.selectedImage = nil
+                }
+                
                 print("Success: \(data)")
             case .failure(let error):
                 self.submissionError = error.localizedDescription
@@ -298,6 +309,89 @@ class BugSubmissionViewModel: ObservableObject {
         }
         return rootViewController
     }
+    
+    
+   
+    
+    private let notionToken = "YOUR_NOTION_INTEGRATION_TOKEN"
+    private let databaseId  = "YOUR_DATABASE_ID"
+
+    func submitDataWithNotion(imageUrl: String, description: String) {
+        // Construct the request URL
+        let url = URL(string: "https://api.notion.com/v1/pages")!
+        
+        // Create request
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("Bearer \(notionToken)", forHTTPHeaderField: "Authorization")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("2021-05-13", forHTTPHeaderField: "Notion-Version")
+
+        // Create the request body
+        let body: [String: Any] = [
+            "parent": ["database_id": databaseId],
+            "properties": [
+                "ImageUrl": [
+                    "url": [
+                        [
+                            "text": [
+                                "content": imageUrl
+                            ]
+                        ]
+                    ]
+                ],
+                "Description": [
+                    "rich_text": [
+                        [
+                            "text": [
+                                "content": description
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
+        } catch {
+            print("Error creating JSON body: \(error)")
+            return
+        }
+
+        // Perform the request
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self?.submissionError = "Submission failed: \(error.localizedDescription)"
+                }
+                return
+            }
+
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    self?.submissionError = "No data received"
+                }
+                return
+            }
+
+            // Handle the response
+            if (response as? HTTPURLResponse)?.statusCode == 200 {
+                DispatchQueue.main.async {
+                    self?.submissionSuccess = true
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self?.submissionError = "Failed with status code: \((response as? HTTPURLResponse)?.statusCode ?? -1)"
+                }
+            }
+        }
+
+        task.resume()
+    }
+    
+    
+    
 }
 
 //https://docs.google.com/spreadsheets/d/e/2PACX-1vShq4ij45YOSTwMQTy7VIoHizydfIjTtxdmkO_10seZaFTNEVShX9eKwZQyQ8wMTjeTPzGjmOiNJmEI/pubhtml
