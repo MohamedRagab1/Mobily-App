@@ -16,7 +16,7 @@ struct ContentView: View {
     //    @State private var imageOffset: CGFloat = -UIScreen.main.bounds.height / 2 // Start above the screen
     @State private var imageSize: CGFloat = 10 // Starting size for both width and height
     @StateObject private var viewModel = BugSubmissionViewModel()
-    @State private var isSignedIn = false    
+    @State private var isSignedIn = false
     
     
     var body: some View {

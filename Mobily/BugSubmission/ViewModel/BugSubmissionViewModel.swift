@@ -29,7 +29,7 @@ class BugSubmissionViewModel: ObservableObject {
     private let clientSecret = "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"
     private let redirectUri  = "com.googleusercontent.apps.835428604547-4ai1b21v87uc88or1n783a6gjtlbvv3v:/oauth2redirect"
     private let scopes       = "https://www.googleapis.com/auth/spreadsheets"
-
+    
     
     
     // client id    835428604547-4ai1b21v87uc88or1n783a6gjtlbvv3v.apps.googleusercontent.com
@@ -43,33 +43,33 @@ class BugSubmissionViewModel: ObservableObject {
         checkSignInStatus()
     }
     
-//    func signInWithGoogle() {
-//        guard let rootViewController = UIApplication.shared.windows.first?.rootViewController else {
-//            return
-//        }
-//        GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController)
-//    }
+    //    func signInWithGoogle() {
+    //        guard let rootViewController = UIApplication.shared.windows.first?.rootViewController else {
+    //            return
+    //        }
+    //        GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController)
+    //    }
     
-//    func signInWithGoogle() {
-//
-//        let configuration = GIDConfiguration(clientID: clientId )
-//        GIDSignIn.sharedInstance.signIn(with: configuration, presenting: getRootViewController() ) { [weak self] user, error in
-//            if let error = error {
-//                print("Google Sign-In error: \(error.localizedDescription)")
-//                self?.submissionError = "Sign-in failed: \(error.localizedDescription)"
-//                return
-//            }
-//
-//            guard let user = user else {
-//                self?.submissionError = "No user returned from Google Sign-In."
-//                return
-//            }
-//
-//            self?.accessToken = user.authentication.accessToken
-//            self?.isAuthorized = true
-//        }
-//    }
-            
+    //    func signInWithGoogle() {
+    //
+    //        let configuration = GIDConfiguration(clientID: clientId )
+    //        GIDSignIn.sharedInstance.signIn(with: configuration, presenting: getRootViewController() ) { [weak self] user, error in
+    //            if let error = error {
+    //                print("Google Sign-In error: \(error.localizedDescription)")
+    //                self?.submissionError = "Sign-in failed: \(error.localizedDescription)"
+    //                return
+    //            }
+    //
+    //            guard let user = user else {
+    //                self?.submissionError = "No user returned from Google Sign-In."
+    //                return
+    //            }
+    //
+    //            self?.accessToken = user.authentication.accessToken
+    //            self?.isAuthorized = true
+    //        }
+    //    }
+    
     
     func checkSignInStatus() {
         if let currentUser = GIDSignIn.sharedInstance.currentUser {
@@ -98,10 +98,10 @@ class BugSubmissionViewModel: ObservableObject {
     func openAuthorizationURL() {
         guard let authorizationURL = getAuthorizationURL() else { return }
         UIApplication.shared.open(authorizationURL, options: [:], completionHandler: nil)
-
-//        guard let authorizationURL = getAuthorizationURL() else { return }
-//        let safariVC = SFSafariViewController(url: authorizationURL)
-//        UIApplication.shared.windows.first?.rootViewController?.present(safariVC, animated: true, completion: nil)
+        
+        //        guard let authorizationURL = getAuthorizationURL() else { return }
+        //        let safariVC = SFSafariViewController(url: authorizationURL)
+        //        UIApplication.shared.windows.first?.rootViewController?.present(safariVC, animated: true, completion: nil)
     }
     
     func handleAuthorizationRedirect(url: URL) {
@@ -116,7 +116,7 @@ class BugSubmissionViewModel: ObservableObject {
         exchangeAuthorizationCodeForToken(code: code)
     }
     
-     func exchangeAuthorizationCodeForToken(code: String) {
+    func exchangeAuthorizationCodeForToken(code: String) {
         let tokenURL = "https://oauth2.googleapis.com/token"
         let parameters: [String: Any] = [
             "code": code,
@@ -125,17 +125,17 @@ class BugSubmissionViewModel: ObservableObject {
             "redirect_uri": redirectUri,
             "grant_type": "authorization_code"
         ]
-         
-         let headers: HTTPHeaders = [
-                "Content-Type": "application/x-www-form-urlencoded"
-            ]
-         
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+        
         
         AF.request(tokenURL, method: .post, parameters: parameters, encoding: URLEncoding.default , headers: headers)
             .responseJSON { response in
                 switch response.result {
                 case .success(let data):
-                    print("data : \(data)")                    
+                    print("data : \(data)")
                     if let json = data as? [String: Any],
                        let accessToken = json["access_token"] as? String,
                        let refreshToken = json["refresh_token"] as? String {
@@ -200,9 +200,9 @@ class BugSubmissionViewModel: ObservableObject {
                 return dateFormatter.string(from: Date())
             }
             
-            self.submitDataWithNotion(imageUrl: imageUrl, description: description)
+            //            self.submitDataWithNotion(imageUrl: imageUrl, description: description)
             
-//            self.updateSheet(spreadsheetId: "10CUyGACHb1qeQVWOL0eZ1WfyKHdSqQaJTe448Jg7vDI", range: formattedDate , values: values, apiKey: "AIzaSyDRk0vpRdAvaAPVv7D0xmSVPQBMdQJD4e4")
+            self.updateSheet(spreadsheetId: "10CUyGACHb1qeQVWOL0eZ1WfyKHdSqQaJTe448Jg7vDI", range: formattedDate , values: values, apiKey: "AIzaSyDRk0vpRdAvaAPVv7D0xmSVPQBMdQJD4e4")
         }
         
         
@@ -251,7 +251,7 @@ class BugSubmissionViewModel: ObservableObject {
             }
         }
     }
-       
+    
     private func updateSheet(spreadsheetId: String, range: String, values: [[String]], apiKey: String) {
         //&key=\(apiKey)
         // Construct the URL
@@ -259,9 +259,9 @@ class BugSubmissionViewModel: ObservableObject {
         // Prepare parameters in the correct format
         print("url :: \(url)")
         let parameters: [String: Any] = [
-            "values": values ,
-            "range": range
-//            "majorDimension": "ROWS",
+            "values": values
+            //            "range": range ,
+            //            "majorDimension": "ROWS",
             
         ]
         // Define headers
@@ -311,87 +311,4 @@ class BugSubmissionViewModel: ObservableObject {
     }
     
     
-   
-    
-    private let notionToken = "YOUR_NOTION_INTEGRATION_TOKEN"
-    private let databaseId  = "YOUR_DATABASE_ID"
-
-    func submitDataWithNotion(imageUrl: String, description: String) {
-        // Construct the request URL
-        let url = URL(string: "https://api.notion.com/v1/pages")!
-        
-        // Create request
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("Bearer \(notionToken)", forHTTPHeaderField: "Authorization")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("2021-05-13", forHTTPHeaderField: "Notion-Version")
-
-        // Create the request body
-        let body: [String: Any] = [
-            "parent": ["database_id": databaseId],
-            "properties": [
-                "ImageUrl": [
-                    "url": [
-                        [
-                            "text": [
-                                "content": imageUrl
-                            ]
-                        ]
-                    ]
-                ],
-                "Description": [
-                    "rich_text": [
-                        [
-                            "text": [
-                                "content": description
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ]
-        
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
-        } catch {
-            print("Error creating JSON body: \(error)")
-            return
-        }
-
-        // Perform the request
-        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    self?.submissionError = "Submission failed: \(error.localizedDescription)"
-                }
-                return
-            }
-
-            guard let data = data else {
-                DispatchQueue.main.async {
-                    self?.submissionError = "No data received"
-                }
-                return
-            }
-
-            // Handle the response
-            if (response as? HTTPURLResponse)?.statusCode == 200 {
-                DispatchQueue.main.async {
-                    self?.submissionSuccess = true
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self?.submissionError = "Failed with status code: \((response as? HTTPURLResponse)?.statusCode ?? -1)"
-                }
-            }
-        }
-
-        task.resume()
-    }
-    
-    
-    
 }
-
-//https://docs.google.com/spreadsheets/d/e/2PACX-1vShq4ij45YOSTwMQTy7VIoHizydfIjTtxdmkO_10seZaFTNEVShX9eKwZQyQ8wMTjeTPzGjmOiNJmEI/pubhtml
